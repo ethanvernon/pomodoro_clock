@@ -26,7 +26,7 @@ export class IncrementersAndDecrementers extends Component {
 			        <h3 id="break-length" className='length'>{this.props.breakLength}</h3>
 			      </div>
 			      <div className="col no-padding">
-			        <span className="fa-stack fa-2x" id='break-increment'>
+			        <span className="fa-stack fa-2x" id='break-increment' onClick={() => this.handleClick('break', 'inc')}>>
 			          <i className="fa fa-circle fa-stack-2x"></i>
 			          <i className="fa fa-arrow-up fa-stack-1x"></i>
 			        </span>
