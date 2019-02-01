@@ -4,6 +4,7 @@ import {Labels} from './Labels';
 import {IncrementersAndDecrementers} from './IncrementersAndDecrementers';
 import {Clock} from './Clock';
 import {StopStart} from './StopStart';
+import {Reset} from './Reset';
 //import {Audio} from './Audio';
 import sound from './bell.mp3';
 
@@ -32,6 +33,7 @@ export class Parent extends Component {
 		this.playPauseClicked = this.playPauseClicked.bind(this);
 		this.timer = this.timer.bind(this);
 		this.audio = new Audio(sound);
+		this.handleReset = this.handleReset.bind(this);
 	}
 
 	//takes string and concats 0 if single digit
@@ -52,17 +54,6 @@ export class Parent extends Component {
 		let seconds = this.state.seconds;
 		let minutes = this.state.minutes;
 		let timeLeft= this.state.timeLeft;
-
-		if (this.state.firstClick==0) {
-			console.log(this.audio);
-			this.audio.play();			
-			this.audio.muted=true;
-			this.audio.pause();
-
-			this.setState({
-				firstClick: 1
-			});
-		}
 
 		if (direction==='dec' && this.state.playPause==0 && this.state.breakLength-1>0) {
 			breakLength-=1;
@@ -123,8 +114,20 @@ export class Parent extends Component {
 		})
 	}
 
-	//changes start/pause button when clicked
+	//changes start/pause button when clicked, clears or starts setInterval 
 	playPauseClicked() {
+
+		//load audio in background
+		if (this.state.firstClick==0) {
+			console.log(this.audio);
+			this.audio.play();			
+			this.audio.muted=true;
+			this.audio.pause();
+
+			this.setState({
+				firstClick: 1
+			});
+		}
 
 		if (this.state.playPause==0) {
 
@@ -186,8 +189,26 @@ export class Parent extends Component {
 		}
 	}
 
-
-
+	handleReset() {
+		//if running clearTimeout and change play button
+		if (this.state.playPause==1) {
+      		clearTimeout(this.state.counter);
+			this.setState({
+				playPause: 0,
+				playPauseButton: 'fa-play'
+			});
+		}
+		//reset timer in case
+		this.audio.pause();
+		this.audio.currentTime=0;
+		//reset states to default
+		this.setState({
+			timerLabel: 'Session',
+			timeLeft: '25:00',
+			breakLength: 5,
+			sessionLength: 25
+		});
+	}
 
 	render() {
 		return(
@@ -202,9 +223,15 @@ export class Parent extends Component {
 				<Clock
 					timeLeft={this.state.timeLeft}
 					timerLabel={this.state.timerLabel}/>
-				<StopStart
-					handleClick={this.playPauseClicked}
-					playPauseButton={this.state.playPauseButton}/>
+				<div className="container" id='bottom'>
+					<div className="row no-padding">
+						<StopStart
+							handleClick={this.playPauseClicked}
+							playPauseButton={this.state.playPauseButton}/>
+						<Reset
+							handleClick={this.handleReset}/>
+					</div>
+				</div>
 			</div>
 		)
 	}

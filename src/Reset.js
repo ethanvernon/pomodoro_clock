@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export class StopStart extends Component {
+export class Reset extends Component {
   	constructor(props) {
 	    super(props);
 	    this.handleClick = this.handleClick.bind(this);
@@ -15,9 +15,9 @@ export class StopStart extends Component {
 	render() {
 		return(
 	      <div className="col no-padding">
-	        <span className="fa-stack fa-2x" id='start-stop' onClick={this.handleClick}>
-		        <i className="fas fa-circle fa-stack-2x"></i>
-		        <i className={"fa " + this.props.playPauseButton + " fa-stack-1x"} id='button-switch'></i>
+	        <span className="fa-stack fa-2x" id='reset' onClick={this.handleClick}>
+		        <i className="fa fa-circle fa-stack-2x"></i>
+		        <i className="fa fa-redo fa-stack-1x"></i>
 	      	</span>
 	      </div>
 		)
