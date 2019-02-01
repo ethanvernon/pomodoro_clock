@@ -4,7 +4,8 @@ import {Labels} from './Labels';
 import {IncrementersAndDecrementers} from './IncrementersAndDecrementers';
 import {Clock} from './Clock';
 import {StopStart} from './StopStart';
-import {Audio} from './Audio';
+//import {Audio} from './Audio';
+import sound from './bell.mp3';
 
 export class Parent extends Component {
 
@@ -21,14 +22,16 @@ export class Parent extends Component {
 			sessionBreak: 0,
 			timeLeft: '25:00',
 			playPauseButton: 'fa-play',
-			timerLabel: 'Session'
-	    }
+			timerLabel: 'Session',
+			firstClick: 0
+	    };
 
 		this.changeBreak = this.changeBreak.bind(this);
 		this.changeSession = this.changeSession.bind(this);
 		this.lengthChecker = this.lengthChecker.bind(this); 
 		this.playPauseClicked = this.playPauseClicked.bind(this);
 		this.timer = this.timer.bind(this);
+		this.audio = new Audio(sound);
 	}
 
 	//takes string and concats 0 if single digit
@@ -49,6 +52,17 @@ export class Parent extends Component {
 		let seconds = this.state.seconds;
 		let minutes = this.state.minutes;
 		let timeLeft= this.state.timeLeft;
+
+		if (this.state.firstClick==0) {
+			console.log(this.audio);
+			this.audio.play();			
+			this.audio.muted=true;
+			this.audio.pause();
+
+			this.setState({
+				firstClick: 1
+			});
+		}
 
 		if (direction==='dec' && this.state.playPause==0 && this.state.breakLength-1>0) {
 			breakLength-=1;
@@ -73,7 +87,7 @@ export class Parent extends Component {
 			seconds: seconds,
 			minutes: minutes,
 			timeLeft: timeLeft
-		})
+		});
 	}
 
 	//if session inc/dec is clicked, evaluates change validity and updates accordingly
@@ -144,7 +158,8 @@ export class Parent extends Component {
 				timeLeft: minutes + ':' + seconds
 			});
 		} else if (Number(seconds) == 0 && Number(minutes) == 0) { //if timer ends
-			//$("#beep")[0].play(); //alert bell
+			this.audio.muted=false;
+			this.audio.play(); //alert bell
 			if (this.state.sessionBreak==0) { //session ended
 				minutes=this.lengthChecker(Number(this.state.breakLength));
 				this.setState({
@@ -190,7 +205,6 @@ export class Parent extends Component {
 				<StopStart
 					handleClick={this.playPauseClicked}
 					playPauseButton={this.state.playPauseButton}/>
-				<Audio/>
 			</div>
 		)
 	}
