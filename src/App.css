@@ -1,32 +1,154 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+body {
+  background-color: #305c64;
   color: white;
+  text-align: center;
+  font-family: 'Montserrat';
+  letter-spacing: 0px;
 }
 
-.App-link {
-  color: #61dafb;
+#title {
+  margin-top: 50px;
+  margin-bottom: 0px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+h1 {
+  font-size: 45px;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 25px;
+  /*font-weight: bold;*/
+}
+
+.no-padding {
+  padding:0px !important;
+}
+
+.my-label {
+  margin-bottom:10px;
+  margin-top:0px;
+}
+
+.container {
+  max-width:435px;
+}
+
+.length {
+  font-size:40px;
+  line-height:64px;
+  padding-bottom:0px;
+}
+
+#box {
+  margin-top: 17px;
+  border-style:solid;
+  border-width:10px;
+  border-radius: 10%;
+  border-color: #193135;
+  width: 80%;
+  max-width:300px;
+  padding-bottom:0px;
+}
+
+#timer-label {
+  font-size: 30px;
+  margin-bottom:0px;
+  padding-bottom:0px;
+  padding-top:12px;
+  margin-top:0px;
+}
+
+#time-left {
+  margin-top:0px;
+  padding-top:0px;
+  font-size: 60px;
+  line-height:60px;
+  font-family: 'Orbitron';
+  letter-spacing:0px;
+  padding-bottom:18px;
+  margin-bottom:0px;
+}
+
+#bottom {
+  margin-top:10px;
+  min-width:140px;
+  max-width:140px;
+}
+
+.fa-stack-1x {
+  color:#305c64;
+}
+
+.fa-stack:hover {
+  cursor:pointer;
+}
+
+.fa-stack {
+  box-shadow: 1px 4px 0 0 black;
+  border-radius:50%;
+}
+
+.fa-stack:active {
+  box-shadow: 0px 2px 0 0 black;
+  margin-top: 2px;
+  margin-bottom:-2px;
+}
+
+.fa-play {
+  color:#305c64;
+  padding-left:5px;
+}
+
+#bottom {
+    margin-bottom: 20px;
+}
+
+
+
+@media only screen and (max-width: 600px) {
+  #title {
+  margin-top: 0px;
+  padding-top:0px;
+  margin-bottom: 0px;
   }
-  to {
-    transform: rotate(360deg);
+  
+  h1 {
+    font-size: 30px;
   }
+
+  h3 {
+    font-size: 18px;
+    letter-spacing: 0px;
+    /*font-weight: bold;*/
+  }
+  
+  .length {
+    font-size:35px;
+  }
+  
+  #timer-label {
+    padding-top:7.5px;
+    padding-bottom:2.5px;
+    font-size: 25px;
+  }
+  
+  #time-left {
+    font-size:55px;
+    /*line-height: 55px;*/
+    padding-bottom:5px;
+  }
+  
+  .fa-stack {
+    transform: scale(.8,.8)
+  }
+  
+  #bottom {
+    transform:scale(1.2,1.2);
+  }
+  
+  #lengths_and_buttons {
+    
+  }
+  
 }
