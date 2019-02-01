@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export class StopStart extends Component {
+export class PlayPause extends Component {
   	constructor(props) {
 	    super(props);
 	    this.handleClick = this.handleClick.bind(this);

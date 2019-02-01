@@ -3,7 +3,7 @@ import {Title} from './Title';
 import {Labels} from './Labels';
 import {IncrementersAndDecrementers} from './IncrementersAndDecrementers';
 import {Clock} from './Clock';
-import {StopStart} from './StopStart';
+import {PlayPause} from './PlayPause';
 import {Reset} from './Reset';
 //import {Audio} from './Audio';
 import sound from './bell.mp3';
@@ -225,7 +225,7 @@ export class Parent extends Component {
 					timerLabel={this.state.timerLabel}/>
 				<div className="container" id='bottom'>
 					<div className="row no-padding">
-						<StopStart
+						<PlayPause
 							handleClick={this.playPauseClicked}
 							playPauseButton={this.state.playPauseButton}/>
 						<Reset
