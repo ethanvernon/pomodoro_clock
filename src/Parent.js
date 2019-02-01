@@ -8,6 +8,35 @@ import {Audio} from './Audio';
 
 export class Parent extends Component {
 
+	constructor(props) {
+	    super(props);
+
+	    this.state = {
+			breakLength: 5,
+			sessionLength: 25,
+			minutes: 25,
+			seconds: 0,
+			startStop: 0,
+			counter: 0,
+			sessionBreak: 0
+	    }
+
+		this.changeBreak = this.changeBreak.bind(this);
+	}
+
+	changeBreak(direction) {
+		let breakLength = this.state.breakLength;
+
+		if (direction==='dec' && this.state.startStop==0 && this.state.breakLength-1>0) {
+			breakLength-=1;			
+		}
+
+		this.setState({
+			breakLength: breakLength
+		})
+
+	}
+
 
 
 	render() {
@@ -15,7 +44,10 @@ export class Parent extends Component {
 			<div>
 				<Title/>
 				<Labels/>
-				<IncrementersAndDecrementers/>
+				<IncrementersAndDecrementers
+					breakLength={this.state.breakLength}
+					sessionLength={this.state.sessionLength}
+					changeBreak={this.changeBreak}/>
 				<Clock/>
 				<StopStart/>
 				<Audio/>
