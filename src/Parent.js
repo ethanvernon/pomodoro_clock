@@ -16,15 +16,19 @@ export class Parent extends Component {
 			sessionLength: 25,
 			minutes: 25,
 			seconds: 0,
-			startStop: 0,
+			playPause: 0,
 			counter: 0,
 			sessionBreak: 0,
-			timeLeft: '25:00'
+			timeLeft: '25:00',
+			playPauseButton: 'fa-play',
+			timerLabel: 'Session'
 	    }
 
 		this.changeBreak = this.changeBreak.bind(this);
 		this.changeSession = this.changeSession.bind(this);
 		this.lengthChecker = this.lengthChecker.bind(this); 
+		this.playPauseClicked = this.playPauseClicked.bind(this);
+		this.timer = this.timer.bind(this);
 	}
 
 	//takes string and concats 0 if single digit
@@ -46,7 +50,7 @@ export class Parent extends Component {
 		let minutes = this.state.minutes;
 		let timeLeft= this.state.timeLeft;
 
-		if (direction==='dec' && this.state.startStop==0 && this.state.breakLength-1>0) {
+		if (direction==='dec' && this.state.playPause==0 && this.state.breakLength-1>0) {
 			breakLength-=1;
 			if (this.state.sessionBreak==1) {
 				seconds=0;
@@ -55,7 +59,7 @@ export class Parent extends Component {
 			}
 		}
 
-		if (direction==='inc' && this.state.startStop==0 && this.state.breakLength+1<=60) {
+		if (direction==='inc' && this.state.playPause==0 && this.state.breakLength+1<=60) {
 			breakLength= Number(breakLength)+1;
 			if (this.state.sessionBreak==1) {
 				seconds=0;
@@ -79,7 +83,7 @@ export class Parent extends Component {
 		let minutes = this.state.minutes;
 		let timeLeft= this.state.timeLeft;
 
-		if (direction==='dec' && this.state.startStop==0 && this.state.sessionLength-1>0) {
+		if (direction==='dec' && this.state.playPause==0 && this.state.sessionLength-1>0) {
 			sessionLength-=1;
 			if (this.state.sessionBreak==0) {
 				seconds=0;
@@ -88,7 +92,7 @@ export class Parent extends Component {
 			}
 		}
 
-		if (direction==='inc' && this.state.startStop==0 && this.state.sessionLength+1<=60) {
+		if (direction==='inc' && this.state.playPause==0 && this.state.sessionLength+1<=60) {
 			sessionLength= Number(sessionLength)+1;
 			if (this.state.sessionBreak==0) {
 				seconds=0;
@@ -105,6 +109,67 @@ export class Parent extends Component {
 		})
 	}
 
+	//changes start/pause button when clicked
+	playPauseClicked() {
+
+		if (this.state.playPause==0) {
+
+			//change play to pause button
+			this.setState({
+				playPause: 1,
+				playPauseButton: 'fa-pause',
+				counter: setInterval(this.timer, 1000)
+			});
+
+
+		} else {
+			this.setState({
+				playPause: 0,
+				playPauseButton: 'fa-play'
+			});
+      		clearTimeout(this.state.counter);
+   		}
+	}
+
+	timer() {
+		let minutes=this.state.minutes;
+		let seconds=this.state.seconds;
+
+		if (Number(seconds) == 0 && Number(minutes) > 0) { //if ##:00
+			minutes=this.lengthChecker(Number(minutes) - 1);
+			seconds=59;
+			this.setState({
+				seconds: seconds,
+				minutes: minutes,
+				timeLeft: minutes + ':' + seconds
+			});
+		} else if (Number(seconds) == 0 && Number(minutes) == 0) { //if timer ends
+			//$("#beep")[0].play(); //alert bell
+			if (this.state.sessionBreak==0) { //session ended
+				minutes=this.lengthChecker(Number(this.state.breakLength));
+				this.setState({
+					sessionBreak: 1,
+					timerLabel: 'Break',
+					minutes: minutes,
+					timeLeft: minutes + ':' + seconds
+				});
+			} else { //break ended
+				minutes=this.lengthChecker(Number(this.state.sessionLength));
+				this.setState({
+					sessionBreak: 0,
+					timerLabel: 'Session',
+					minutes: minutes,
+					timeLeft: minutes + ':' + seconds
+				});
+			}
+		} else { 
+			seconds= this.lengthChecker(Number(seconds)-1);
+			this.setState({
+				seconds: seconds,
+				timeLeft: minutes + ':' + seconds
+			});
+		}
+	}
 
 
 
@@ -120,8 +185,11 @@ export class Parent extends Component {
 					changeBreak={this.changeBreak}
 					changeSession={this.changeSession}/>
 				<Clock
-					timeLeft={this.state.timeLeft}/>
-				<StopStart/>
+					timeLeft={this.state.timeLeft}
+					timerLabel={this.state.timerLabel}/>
+				<StopStart
+					handleClick={this.playPauseClicked}
+					playPauseButton={this.state.playPauseButton}/>
 				<Audio/>
 			</div>
 		)
