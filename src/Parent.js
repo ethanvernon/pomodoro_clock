@@ -23,6 +23,7 @@ export class Parent extends Component {
 	    }
 
 		this.changeBreak = this.changeBreak.bind(this);
+		this.changeSession = this.changeSession.bind(this);
 		this.lengthChecker = this.lengthChecker.bind(this); 
 	}
 
@@ -71,6 +72,39 @@ export class Parent extends Component {
 		})
 	}
 
+	//if session inc/dec is clicked, evaluates change validity and updates accordingly
+	changeSession(direction) {
+		let sessionLength = this.state.sessionLength;
+		let seconds = this.state.seconds;
+		let minutes = this.state.minutes;
+		let timeLeft= this.state.timeLeft;
+
+		if (direction==='dec' && this.state.startStop==0 && this.state.sessionLength-1>0) {
+			sessionLength-=1;
+			if (this.state.sessionBreak==0) {
+				seconds=0;
+				minutes=this.lengthChecker(sessionLength);
+				timeLeft=minutes+ ':0' + seconds;
+			}
+		}
+
+		if (direction==='inc' && this.state.startStop==0 && this.state.sessionLength+1<=60) {
+			sessionLength= Number(sessionLength)+1;
+			if (this.state.sessionBreak==0) {
+				seconds=0;
+				minutes=this.lengthChecker(sessionLength);
+				timeLeft=minutes+ ':0' + seconds;
+			}
+		}
+
+		this.setState({
+			sessionLength: sessionLength,
+			seconds: seconds,
+			minutes: minutes,
+			timeLeft: timeLeft
+		})
+	}
+
 
 
 
@@ -83,8 +117,10 @@ export class Parent extends Component {
 				<IncrementersAndDecrementers
 					breakLength={this.state.breakLength}
 					sessionLength={this.state.sessionLength}
-					changeBreak={this.changeBreak}/>
-				<Clock/>
+					changeBreak={this.changeBreak}
+					changeSession={this.changeSession}/>
+				<Clock
+					timeLeft={this.state.timeLeft}/>
 				<StopStart/>
 				<Audio/>
 			</div>

@@ -9,6 +9,8 @@ export class IncrementersAndDecrementers extends Component {
 	handleClick(label, direction) {
 		if (label==='break') {
 			this.props.changeBreak(direction);
+		} else if (label ==='session') {
+			this.props.changeSession(direction);
 		}
 	}
 
@@ -26,13 +28,13 @@ export class IncrementersAndDecrementers extends Component {
 			        <h3 id="break-length" className='length'>{this.props.breakLength}</h3>
 			      </div>
 			      <div className="col no-padding">
-			        <span className="fa-stack fa-2x" id='break-increment' onClick={() => this.handleClick('break', 'inc')}>>
+			        <span className="fa-stack fa-2x" id='break-increment' onClick={() => this.handleClick('break', 'inc')}>
 			          <i className="fa fa-circle fa-stack-2x"></i>
 			          <i className="fa fa-arrow-up fa-stack-1x"></i>
 			        </span>
 			      </div>
 			      <div className="col no-padding">
-			        <span className="fa-stack fa-2x" id='session-decrement'>
+			        <span className="fa-stack fa-2x" id='session-decrement' onClick={() => this.handleClick('session', 'dec')}>
 			          <i className="fa fa-circle fa-stack-2x"></i>
 			          <i className="fa fa-arrow-down fa-stack-1x"></i>
 			        </span>
@@ -41,7 +43,7 @@ export class IncrementersAndDecrementers extends Component {
 			        <h3 id="session-length" className='length'>{this.props.sessionLength}</h3>
 			      </div>
 			      <div className="col no-padding">
-			        <span className="fa-stack fa-2x" id='session-increment'>
+			        <span className="fa-stack fa-2x" id='session-increment' onClick={() => this.handleClick('session', 'inc')}>
 			          <i className="fa fa-circle fa-stack-2x"></i>
 			          <i className="fa fa-arrow-up fa-stack-1x"></i>
 			        </span>

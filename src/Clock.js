@@ -14,7 +14,7 @@ export class Clock extends Component {
 		    </div>
 		    <div className="row">
 		      <div className="col my-box" id="time-left">
-		        25:00
+		        {this.props.timeLeft}
 		      </div>
 		    </div>
 		  </div>
