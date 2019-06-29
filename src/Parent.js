@@ -15,7 +15,7 @@ export class Parent extends Component {
 	    super(props);
 
 	    this.state = {
-			breakLength: 5,
+			breakLength: [5],
 			sessionLength: 25,
 			minutes: 25,
 			seconds: 0,
@@ -58,20 +58,24 @@ export class Parent extends Component {
 		let minutes = this.state.minutes;
 		let timeLeft= this.state.timeLeft;
 
-		if (direction==='dec' && this.state.playPause==0 && this.state.breakLength-1>0) {
-			breakLength-=1;
+		console.log(breakLength);
+
+		//decrease break and break is > 0
+		if (direction==='dec' && this.state.playPause==0 && breakLength[0]>1) {
+			//decrease breaklength
+			breakLength[0]--;
 			if (this.state.sessionBreak==1) {
 				seconds=0;
-				minutes=this.lengthChecker(breakLength);
+				minutes=this.lengthChecker(breakLength[0]);
 				timeLeft=minutes+ ':0' + seconds;
 			}
 		}
 
-		if (direction==='inc' && this.state.playPause==0 && this.state.breakLength+1<=60) {
-			breakLength= Number(breakLength)+1;
+		if (direction==='inc' && this.state.playPause==0 && breakLength[0]<59) {
+			breakLength[0]= Number(breakLength[0])+1;
 			if (this.state.sessionBreak==1) {
 				seconds=0;
-				minutes=this.lengthChecker(breakLength);
+				minutes=this.lengthChecker(breakLength[0]);
 				timeLeft=minutes+ ':0' + seconds;
 			}
 		}
@@ -167,7 +171,7 @@ export class Parent extends Component {
 			this.audio.muted=false;
 			this.audio.play(); //alert bell
 			if (this.state.sessionBreak==0) { //session ended
-				minutes=this.lengthChecker(Number(this.state.breakLength));
+				minutes=this.lengthChecker(Number(this.state.breakLength[0]));
 				seconds=this.lengthChecker(Number(0));
 				this.setState({
 					sessionBreak: 1,
@@ -212,7 +216,7 @@ export class Parent extends Component {
 		this.setState({
 			timerLabel: 'Session',
 			timeLeft: '25:00',
-			breakLength: 5,
+			breakLength: [5],
 			sessionLength: 25
 		});
 	}
@@ -239,7 +243,7 @@ export class Parent extends Component {
 		let clocks=[];
 		for (var i=0; i<this.state.clocksCount; i++) {
 			clocks.push(<IncrementersAndDecrementers
-					breakLength={this.state.breakLength}
+					breakLength={this.state.breakLength[0]}
 					sessionLength={this.state.sessionLength}
 					changeBreak={this.changeBreak}
 					changeSession={this.changeSession}/>)
@@ -250,7 +254,7 @@ export class Parent extends Component {
 			<div>
 				<Title/>
 				<Labels/>
-				{clocks}	
+				{clocks}
 				<AddClock
 					updateClocks={this.updateClocks}/>
 				<Clock
