@@ -160,24 +160,28 @@ export class Parent extends Component {
 				minutes: minutes,
 				timeLeft: minutes + ':' + seconds
 			});
-		} else if (Number(seconds) == 0 && Number(minutes) == 0) { //if timer ends
+		} else if (Number(seconds) == 1 && Number(minutes) == 0) { //if timer ends next second
 			this.audio.muted=false;
 			this.audio.play(); //alert bell
 			if (this.state.sessionBreak==0) { //session ended
 				minutes=this.lengthChecker(Number(this.state.breakLength));
+				seconds=this.lengthChecker(Number(0));
 				this.setState({
 					sessionBreak: 1,
 					timerLabel: 'Break',
 					minutes: minutes,
-					timeLeft: minutes + ':' + seconds
+					timeLeft: minutes + ':' + seconds,
+					seconds: seconds
 				});
 			} else { //break ended
 				minutes=this.lengthChecker(Number(this.state.sessionLength));
+				seconds=this.lengthChecker(Number(0));
 				this.setState({
 					sessionBreak: 0,
 					timerLabel: 'Session',
 					minutes: minutes,
-					timeLeft: minutes + ':' + seconds
+					timeLeft: minutes + ':' + seconds,
+					seconds: seconds
 				});
 			}
 		} else { 
