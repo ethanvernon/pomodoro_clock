@@ -7,6 +7,7 @@ import {PlayPause} from './PlayPause';
 import {Reset} from './Reset';
 //import {Audio} from './Audio';
 import sound from './bell.mp3';
+import {AddClock} from './AddClock';
 
 export class Parent extends Component {
 
@@ -34,6 +35,7 @@ export class Parent extends Component {
 		this.timer = this.timer.bind(this);
 		this.audio = new Audio(sound);
 		this.handleReset = this.handleReset.bind(this);
+		this.updateClocks = this.updateClocks.bind(this);
 	}
 
 	//takes string and concats 0 if single digit
@@ -223,7 +225,9 @@ export class Parent extends Component {
 					breakLength={this.state.breakLength}
 					sessionLength={this.state.sessionLength}
 					changeBreak={this.changeBreak}
-					changeSession={this.changeSession}/>
+					changeSession={this.changeSession}/>				
+				<AddClock
+					updateClocks={this.state.updateClocks}/>
 				<Clock
 					timeLeft={this.state.timeLeft}
 					timerLabel={this.state.timerLabel}/>
