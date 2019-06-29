@@ -15,7 +15,7 @@ export class Parent extends Component {
 	    super(props);
 
 	    this.state = {
-			breakLength: [5],
+			breakLength: [{clockNumber: 0, duration: 5}],
 			sessionLength: [25],
 			minutes: 25,
 			seconds: 0,
@@ -61,21 +61,21 @@ export class Parent extends Component {
 		console.log(breakLength);
 
 		//decrease break and break is > 0
-		if (direction==='dec' && this.state.playPause==0 && breakLength[0]>1) {
+		if (direction==='dec' && this.state.playPause==0 && breakLength[0]['duration']>1) {
 			//decrease breaklength
-			breakLength[0]--;
+			breakLength[0]['duration']--;
 			if (this.state.sessionBreak==1) {
 				seconds=0;
-				minutes=this.lengthChecker(breakLength[0]);
+				minutes=this.lengthChecker(breakLength[0]['duration']);
 				timeLeft=minutes+ ':0' + seconds;
 			}
 		}
 
-		if (direction==='inc' && this.state.playPause==0 && breakLength[0]<59) {
-			breakLength[0]= Number(breakLength[0])+1;
+		if (direction==='inc' && this.state.playPause==0 && breakLength[0]['duration']<59) {
+			breakLength[0]['duration']= Number(breakLength[0]['duration'])+1;
 			if (this.state.sessionBreak==1) {
 				seconds=0;
-				minutes=this.lengthChecker(breakLength[0]);
+				minutes=this.lengthChecker(breakLength[0]['duration']);
 				timeLeft=minutes+ ':0' + seconds;
 			}
 		}
@@ -226,6 +226,7 @@ export class Parent extends Component {
 	updateClocks(change) {
 		var clocks=this.state.clocksCount;
 		var sessionLength=this.state.sessionLength;
+		var breakLength=this.state.breakLength;
 
 		console.log(sessionLength);
 
@@ -233,9 +234,16 @@ export class Parent extends Component {
 		if (change=='subtract' && this.state.clocksCount>1) {
 			clocks--;
 			sessionLength.length = sessionLength.length-1;
+			breakLength.length = breakLength.length-1;
 		} else if (change=='add') {
 			clocks++;
-			sessionLength.push(5);
+			sessionLength.push(25);
+			breakLength.push(
+				{
+					'clockNumber': breakLength.length,
+					'duration': 5
+				}
+			);
 		}
 
 		//add or subtract new clocks from break/sessionlength as places in arrays

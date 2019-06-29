@@ -15,6 +15,7 @@ export class IncrementersAndDecrementers extends Component {
 	}
 
 	render() {
+
 		return(
 			<div className="container" id='lengths_and_buttons'>
 			    <div className="row">
@@ -25,7 +26,7 @@ export class IncrementersAndDecrementers extends Component {
 			        </span>
 			      </div>
 			      <div className="col no-padding">
-			        <h3 id="break-length" className='length'>{this.props.breakLength}</h3>
+			        <h3 id="break-length" className='length'>{this.props.breakLength.duration}</h3>
 			      </div>
 			      <div className="col no-padding">
 			        <span className="fa-stack fa-2x" id='break-increment' onClick={() => this.handleClick('break', 'inc')}>
