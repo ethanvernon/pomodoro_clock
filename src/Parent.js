@@ -25,7 +25,8 @@ export class Parent extends Component {
 			timeLeft: '25:00',
 			playPauseButton: 'fa-play',
 			timerLabel: 'Session',
-			firstClick: 0
+			firstClick: 0,
+			clocksCount: 1
 	    };
 
 		this.changeBreak = this.changeBreak.bind(this);
@@ -216,6 +217,23 @@ export class Parent extends Component {
 		});
 	}
 
+
+	//updates number of clocks or timers
+	updateClocks(change) {
+		var clocks=this.state.clocksCount;
+
+		//checks parameters for which button was clicked subtract or add clock
+		if (change=='subtract' && this.state.clocksCount>1) {
+			clocks--;
+		} else if (change=='add') {
+			clocks++;			
+		}
+
+		this.setState({
+			clocksCount: clocks
+		})
+	}
+
 	render() {
 		return(
 			<div>
@@ -227,7 +245,7 @@ export class Parent extends Component {
 					changeBreak={this.changeBreak}
 					changeSession={this.changeSession}/>				
 				<AddClock
-					updateClocks={this.state.updateClocks}/>
+					updateClocks={this.updateClocks}/>
 				<Clock
 					timeLeft={this.state.timeLeft}
 					timerLabel={this.state.timerLabel}/>
