@@ -235,15 +235,22 @@ export class Parent extends Component {
 	}
 
 	render() {
+		//for each clock, need to add a clock, break and session length
+		let clocks=[];
+		for (var i=0; i<this.state.clocksCount; i++) {
+			clocks.push(<IncrementersAndDecrementers
+					breakLength={this.state.breakLength}
+					sessionLength={this.state.sessionLength}
+					changeBreak={this.changeBreak}
+					changeSession={this.changeSession}/>)
+		}
+
+
 		return(
 			<div>
 				<Title/>
 				<Labels/>
-				<IncrementersAndDecrementers
-					breakLength={this.state.breakLength}
-					sessionLength={this.state.sessionLength}
-					changeBreak={this.changeBreak}
-					changeSession={this.changeSession}/>				
+				{clocks}	
 				<AddClock
 					updateClocks={this.updateClocks}/>
 				<Clock
