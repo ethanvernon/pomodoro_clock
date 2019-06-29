@@ -225,16 +225,22 @@ export class Parent extends Component {
 	//updates number of clocks or timers
 	updateClocks(change) {
 		var clocks=this.state.clocksCount;
+		var sessionLengths=this.state.sessionLength;
 
 		//checks parameters for which button was clicked subtract or add clock
 		if (change=='subtract' && this.state.clocksCount>1) {
 			clocks--;
 		} else if (change=='add') {
-			clocks++;			
+			clocks++;
+			sessionLengths.push(5);
 		}
 
+		//add or subtract new clocks from break/sessionlength as places in arrays
+
+
 		this.setState({
-			clocksCount: clocks
+			clocksCount: clocks,
+			sessionLength: sessionLengths
 		})
 	}
 
@@ -243,8 +249,8 @@ export class Parent extends Component {
 		let clocks=[];
 		for (var i=0; i<this.state.clocksCount; i++) {
 			clocks.push(<IncrementersAndDecrementers
-					breakLength={this.state.breakLength[0]}
-					sessionLength={this.state.sessionLength[0]}
+					breakLength={this.state.breakLength[i]}
+					sessionLength={this.state.sessionLength[i]}
 					changeBreak={this.changeBreak}
 					changeSession={this.changeSession}/>)
 		}
