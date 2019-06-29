@@ -16,7 +16,7 @@ export class Parent extends Component {
 
 	    this.state = {
 			breakLength: [5],
-			sessionLength: 25,
+			sessionLength: [25],
 			minutes: 25,
 			seconds: 0,
 			playPause: 0,
@@ -95,20 +95,20 @@ export class Parent extends Component {
 		let minutes = this.state.minutes;
 		let timeLeft= this.state.timeLeft;
 
-		if (direction==='dec' && this.state.playPause==0 && this.state.sessionLength-1>0) {
-			sessionLength-=1;
+		if (direction==='dec' && this.state.playPause==0 && this.state.sessionLength[0]-1>0) {
+			sessionLength[0]--;
 			if (this.state.sessionBreak==0) {
 				seconds=0;
-				minutes=this.lengthChecker(sessionLength);
+				minutes=this.lengthChecker(sessionLength[0]);
 				timeLeft=minutes+ ':0' + seconds;
 			}
 		}
 
-		if (direction==='inc' && this.state.playPause==0 && this.state.sessionLength+1<=60) {
-			sessionLength= Number(sessionLength)+1;
+		if (direction==='inc' && this.state.playPause==0 && this.state.sessionLength[0]+1<=60) {
+			sessionLength[0]= Number(sessionLength[0])+1;
 			if (this.state.sessionBreak==0) {
 				seconds=0;
-				minutes=this.lengthChecker(sessionLength);
+				minutes=this.lengthChecker(sessionLength[0]);
 				timeLeft=minutes+ ':0' + seconds;
 			}
 		}
@@ -217,7 +217,7 @@ export class Parent extends Component {
 			timerLabel: 'Session',
 			timeLeft: '25:00',
 			breakLength: [5],
-			sessionLength: 25
+			sessionLength: [25]
 		});
 	}
 
@@ -244,7 +244,7 @@ export class Parent extends Component {
 		for (var i=0; i<this.state.clocksCount; i++) {
 			clocks.push(<IncrementersAndDecrementers
 					breakLength={this.state.breakLength[0]}
-					sessionLength={this.state.sessionLength}
+					sessionLength={this.state.sessionLength[0]}
 					changeBreak={this.changeBreak}
 					changeSession={this.changeSession}/>)
 		}
