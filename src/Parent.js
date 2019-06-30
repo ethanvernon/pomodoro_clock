@@ -16,17 +16,18 @@ export class Parent extends Component {
 
 	    this.state = {
 			breakLength: [{clockNumber: 0, duration: 5}],
-			sessionLength: [25],
-			minutes: 25,
+			sessionLength: [5],
+			minutes: 5,
 			seconds: 0,
 			playPause: 0,
 			counter: 0,
 			sessionBreak: 0,
-			timeLeft: '25:00',
+			timeLeft: '05:00',
 			playPauseButton: 'fa-play',
 			timerLabel: 'Session',
 			firstClick: 0,
-			clocksCount: 1
+			clocksCount: 1,
+			elapsedTime: 0
 	    };
 
 		this.changeBreak = this.changeBreak.bind(this);
@@ -58,8 +59,6 @@ export class Parent extends Component {
 		let minutes = this.state.minutes;
 		let timeLeft= this.state.timeLeft;
 
-		console.log(breakLength);
-
 		//decrease break and break is > 0
 		if (direction==='dec' && this.state.playPause==0 && breakLength[0]['duration']>1) {
 			//decrease breaklength
@@ -79,6 +78,10 @@ export class Parent extends Component {
 				timeLeft=minutes+ ':0' + seconds;
 			}
 		}
+
+		console.log(this.lengthChecker(breakLength[0]['duration']));
+		console.log(minutes);
+		console.log(timeLeft);
 
 		this.setState({
 			breakLength: breakLength,
@@ -145,7 +148,6 @@ export class Parent extends Component {
 				counter: setInterval(this.timer, 1000)
 			});
 
-
 		} else {
 			this.setState({
 				playPause: 0,
@@ -155,10 +157,31 @@ export class Parent extends Component {
    		}
 	}
 
+	//when the play button is clicked, this is run every 1000 ms
 	timer() {
 		let minutes=this.state.minutes;
 		let seconds=this.state.seconds;
+		let elapsedTime=this.state.elapsedTime+1;
 
+		//updats total elapsedTime
+		this.setState({
+			elapsedTime: elapsedTime
+		});
+		console.log(elapsedTime + ' seconds, ' + (elapsedTime/60).toFixed(1) + ' minutes, ' + (elapsedTime/60/60).toFixed(1) + ' hours');
+
+		//have an extra alarm every 30mins5seconds (1805s)
+		if (elapsedTime%1805==0) {
+			this.audio.muted=false;
+			this.audio.play(); //alert bell
+		}
+
+		//have the alarm go off continuously after 4 hours (14400s)
+		if (elapsedTime>14400) {
+			this.audio.muted=false;
+			this.audio.play(); //alert bell
+		}
+
+		//checks various times
 		if (Number(seconds) == 0 && Number(minutes) > 0) { //if ##:00
 			minutes=this.lengthChecker(Number(minutes) - 1);
 			seconds=59;
@@ -171,7 +194,7 @@ export class Parent extends Component {
 			this.audio.muted=false;
 			this.audio.play(); //alert bell
 			if (this.state.sessionBreak==0) { //session ended
-				minutes=this.lengthChecker(Number(this.state.breakLength[0]));
+				minutes=this.lengthChecker(Number(this.state.breakLength[0]['duration']));
 				seconds=this.lengthChecker(Number(0));
 				this.setState({
 					sessionBreak: 1,
@@ -215,9 +238,9 @@ export class Parent extends Component {
 		//reset states to default
 		this.setState({
 			timerLabel: 'Session',
-			timeLeft: '25:00',
+			timeLeft: '05:00',
 			breakLength: [5],
-			sessionLength: [25]
+			sessionLength: [5]
 		});
 	}
 
